@@ -20,11 +20,4 @@ public sealed class Department
     public string Description { get; private set; } = string.Empty;
     public int HeadCount { get; private set; }
     public IReadOnlyCollection<DepartmentTool> DepartmentTools => _departmentTools.AsReadOnly();
-
-    public void UpdateDetails(string name, string description, int headCount)
-    {
-        Name = name;
-        Description = description;
-        HeadCount = headCount;
-    }
 }

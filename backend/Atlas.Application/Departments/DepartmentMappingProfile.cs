@@ -8,7 +8,8 @@ public sealed class DepartmentMappingProfile : Profile
 {
     public DepartmentMappingProfile()
     {
-        CreateMap<Department, DepartmentListDto>();
+        CreateMap<Department, DepartmentListDto>()
+            .ForMember(dest => dest.ToolCount, opt => opt.MapFrom(src => src.DepartmentTools.Count));
 
         CreateMap<Department, DepartmentDetailDto>()
             .ForMember(dest => dest.Tools, opt => opt.MapFrom(src => src.DepartmentTools));

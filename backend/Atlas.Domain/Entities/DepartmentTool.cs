@@ -25,8 +25,4 @@ public sealed class DepartmentTool
 
     public Department Department { get; private set; } = null!;
     public Tool Tool { get; private set; } = null!;
-
-    public void ChangeUsageLevel(UsageLevel usageLevel) => UsageLevel = usageLevel;
-
-    public void AssignReferent(string? referent) => Referent = referent;
 }

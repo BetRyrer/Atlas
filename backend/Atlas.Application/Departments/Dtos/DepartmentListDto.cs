@@ -6,4 +6,5 @@ public sealed record DepartmentListDto
     public required string Name { get; init; }
     public required string Description { get; init; }
     public required int HeadCount { get; init; }
+    public required int ToolCount { get; init; }
 }

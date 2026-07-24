@@ -1,5 +1,6 @@
 using System.Reflection;
 using Atlas.Application.Auth;
+using Atlas.Application.Categories;
 using Atlas.Application.Departments;
 using Atlas.Application.Matrix;
 using Atlas.Application.Tools;
@@ -21,6 +22,7 @@ public static class DependencyInjection
         services.AddScoped<IDepartmentService, DepartmentService>();
         services.AddScoped<IMatrixService, MatrixService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ICategoryService, CategoryService>();
 
         return services;
     }

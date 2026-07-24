@@ -5,6 +5,7 @@ export interface DepartmentListItem {
   name: string;
   description: string;
   headCount: number;
+  toolCount: number;
 }
 
 export interface DepartmentToolLink {

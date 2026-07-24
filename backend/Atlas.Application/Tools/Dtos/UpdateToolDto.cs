@@ -2,7 +2,7 @@ using Atlas.Domain.Enums;
 
 namespace Atlas.Application.Tools.Dtos;
 
-public sealed record UpdateToolDto
+public sealed record UpdateToolDto : IToolDto
 {
     public required string Name { get; init; }
     public required string Vendor { get; init; }

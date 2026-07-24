@@ -72,9 +72,6 @@ public sealed class ToolRepository(AppDbContext dbContext, IMapper mapper) : ITo
             .Include(tool => tool.DepartmentTools)
             .FirstOrDefaultAsync(tool => tool.Id == id, cancellationToken);
 
-    public Task<bool> ExistsAsync(int id, CancellationToken cancellationToken) =>
-        dbContext.Tools.AsNoTracking().AnyAsync(tool => tool.Id == id, cancellationToken);
-
     public void Add(Tool tool) => dbContext.Tools.Add(tool);
 
     public void Remove(Tool tool) => dbContext.Tools.Remove(tool);

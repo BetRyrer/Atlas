@@ -16,8 +16,6 @@ public interface IToolRepository
 
     Task<Tool?> GetWithLinksByIdAsync(int id, CancellationToken cancellationToken);
 
-    Task<bool> ExistsAsync(int id, CancellationToken cancellationToken);
-
     void Add(Tool tool);
 
     void Remove(Tool tool);

@@ -6,13 +6,13 @@ namespace Atlas.Api.Controllers;
 
 [ApiController]
 [Route("api/categories")]
-public sealed class CategoriesController(ICategoryRepository categoryRepository) : ControllerBase
+public sealed class CategoriesController(ICategoryService categoryService) : ControllerBase
 {
     /// <summary>Returns every category.</summary>
     [HttpGet]
     public async Task<ActionResult<IReadOnlyCollection<CategoryDto>>> GetAll(CancellationToken cancellationToken)
     {
-        var categories = await categoryRepository.GetAllAsync(cancellationToken);
+        var categories = await categoryService.GetAllAsync(cancellationToken);
         return Ok(categories);
     }
 }

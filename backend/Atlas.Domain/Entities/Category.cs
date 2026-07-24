@@ -18,10 +18,4 @@ public sealed class Category
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public IReadOnlyCollection<Tool> Tools => _tools.AsReadOnly();
-
-    public void Rename(string name, string description)
-    {
-        Name = name;
-        Description = description;
-    }
 }
