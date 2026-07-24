@@ -6,6 +6,7 @@ import { getErrorMessage } from '../../../shared/api/apiError';
 import { useAuth } from '../../../shared/auth/AuthContext';
 import { Button } from '../../../shared/components/ui/Button';
 import { Input } from '../../../shared/components/ui/Input';
+import { ThemeToggle } from '../../../shared/components/ui/ThemeToggle';
 import { loginFormSchema, type LoginFormSchema } from '../types/loginFormSchema';
 
 export function LoginPage() {
@@ -58,7 +59,8 @@ export function LoginPage() {
         <p className="text-sm text-accent-200">© {new Date().getFullYear()} Atlas</p>
       </div>
 
-      <div className="flex w-full flex-col items-center justify-center bg-neutral-50 p-8 dark:bg-neutral-950 md:w-1/2">
+      <div className="relative flex w-full flex-col items-center justify-center bg-neutral-50 p-8 dark:bg-neutral-950 md:w-1/2">
+        <ThemeToggle className="absolute right-4 top-4" />
         <div className="w-full max-w-sm">
           <div className="mb-8 md:hidden">
             <span className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Atlas</span>

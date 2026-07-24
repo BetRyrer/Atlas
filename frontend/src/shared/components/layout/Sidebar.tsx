@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import { Button } from '../ui/Button';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 const links = [
   { to: '/dashboard', label: 'Tableau de bord' },
@@ -20,8 +21,9 @@ export function Sidebar() {
 
   return (
     <aside className="flex w-56 shrink-0 flex-col border-r border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <div className="px-4 py-5">
+      <div className="flex items-center justify-between px-4 py-5">
         <span className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Atlas</span>
+        <ThemeToggle />
       </div>
       <nav aria-label="Main navigation" className="flex flex-1 flex-col gap-1 px-2">
         {links.map((link) => (
