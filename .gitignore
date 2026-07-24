@@ -1,0 +1,37 @@
+# .NET
+bin/
+obj/
+out/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# EF Core / SQLite runtime data
+*.db
+*.db-shm
+*.db-wal
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+# Node / Vite
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Environment files
+.env
+!.env.example
+frontend/.env
+!frontend/.env.example
+
+# Editor / OS
+.DS_Store
+*.log
+.idea/
