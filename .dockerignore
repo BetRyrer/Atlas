@@ -2,6 +2,5 @@
 **/obj
 **/node_modules
 frontend
-tests
 .git
 **/*.db

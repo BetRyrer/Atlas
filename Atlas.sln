@@ -3,19 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5B683E3E-963E-4C7C-95D0-51F3469A592D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{5B683E3E-963E-4C7C-95D0-51F3469A592D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Domain", "src\Atlas.Domain\Atlas.Domain.csproj", "{585D868F-BC98-4925-ABC6-EFDA605BC94A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Domain", "backend\Atlas.Domain\Atlas.Domain.csproj", "{585D868F-BC98-4925-ABC6-EFDA605BC94A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Application", "src\Atlas.Application\Atlas.Application.csproj", "{1656755B-811B-4BDE-BE52-CA269B1E8463}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Application", "backend\Atlas.Application\Atlas.Application.csproj", "{1656755B-811B-4BDE-BE52-CA269B1E8463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure", "src\Atlas.Infrastructure\Atlas.Infrastructure.csproj", "{EE5A1111-487E-4389-AB98-E67A1FADE72D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure", "backend\Atlas.Infrastructure\Atlas.Infrastructure.csproj", "{EE5A1111-487E-4389-AB98-E67A1FADE72D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Api", "src\Atlas.Api\Atlas.Api.csproj", "{F306C5D0-3BA2-4F58-84DE-FC24D5264FAC}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{92ADA634-D58B-4E0F-A5EF-4FAA31F6F3D8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Application.Tests", "tests\Atlas.Application.Tests\Atlas.Application.Tests.csproj", "{77737954-5D10-42FE-A79C-2136E49DB3FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Api", "backend\Atlas.Api\Atlas.Api.csproj", "{F306C5D0-3BA2-4F58-84DE-FC24D5264FAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,16 +38,11 @@ Global
 		{F306C5D0-3BA2-4F58-84DE-FC24D5264FAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F306C5D0-3BA2-4F58-84DE-FC24D5264FAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F306C5D0-3BA2-4F58-84DE-FC24D5264FAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77737954-5D10-42FE-A79C-2136E49DB3FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77737954-5D10-42FE-A79C-2136E49DB3FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77737954-5D10-42FE-A79C-2136E49DB3FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77737954-5D10-42FE-A79C-2136E49DB3FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{585D868F-BC98-4925-ABC6-EFDA605BC94A} = {5B683E3E-963E-4C7C-95D0-51F3469A592D}
 		{1656755B-811B-4BDE-BE52-CA269B1E8463} = {5B683E3E-963E-4C7C-95D0-51F3469A592D}
 		{EE5A1111-487E-4389-AB98-E67A1FADE72D} = {5B683E3E-963E-4C7C-95D0-51F3469A592D}
 		{F306C5D0-3BA2-4F58-84DE-FC24D5264FAC} = {5B683E3E-963E-4C7C-95D0-51F3469A592D}
-		{77737954-5D10-42FE-A79C-2136E49DB3FC} = {92ADA634-D58B-4E0F-A5EF-4FAA31F6F3D8}
 	EndGlobalSection
 EndGlobal

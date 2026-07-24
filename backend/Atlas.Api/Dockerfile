@@ -2,14 +2,14 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY Atlas.sln Directory.Build.props ./
-COPY src/Atlas.Domain/Atlas.Domain.csproj src/Atlas.Domain/
-COPY src/Atlas.Application/Atlas.Application.csproj src/Atlas.Application/
-COPY src/Atlas.Infrastructure/Atlas.Infrastructure.csproj src/Atlas.Infrastructure/
-COPY src/Atlas.Api/Atlas.Api.csproj src/Atlas.Api/
-RUN dotnet restore src/Atlas.Api/Atlas.Api.csproj
+COPY backend/Atlas.Domain/Atlas.Domain.csproj backend/Atlas.Domain/
+COPY backend/Atlas.Application/Atlas.Application.csproj backend/Atlas.Application/
+COPY backend/Atlas.Infrastructure/Atlas.Infrastructure.csproj backend/Atlas.Infrastructure/
+COPY backend/Atlas.Api/Atlas.Api.csproj backend/Atlas.Api/
+RUN dotnet restore backend/Atlas.Api/Atlas.Api.csproj
 
-COPY src/ src/
-RUN dotnet publish src/Atlas.Api/Atlas.Api.csproj -c Release -o /app/publish --no-restore
+COPY backend/ backend/
+RUN dotnet publish backend/Atlas.Api/Atlas.Api.csproj -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app

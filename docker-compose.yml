@@ -2,7 +2,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: src/Atlas.Api/Dockerfile
+      dockerfile: backend/Atlas.Api/Dockerfile
     ports:
       - "${API_PORT:-8080}:8080"
     environment:

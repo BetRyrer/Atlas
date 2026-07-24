@@ -1,4 +1,24 @@
-# Atlas — Catalogue d'outillage technique
+<div align="center">
+
+<p>
+  <img src="https://cdn.simpleicons.org/dotnet" width="36" height="36" alt=".NET" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" width="36" height="36" alt="C#" />
+  <img src="https://cdn.simpleicons.org/sqlite" width="36" height="36" alt="SQLite" />
+  <img src="https://cdn.simpleicons.org/jsonwebtokens" width="36" height="36" alt="JWT" />
+  &nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/react" width="36" height="36" alt="React" />
+  <img src="https://cdn.simpleicons.org/typescript" width="36" height="36" alt="TypeScript" />
+  <img src="https://cdn.simpleicons.org/vite" width="36" height="36" alt="Vite" />
+  <img src="https://cdn.simpleicons.org/tailwindcss" width="36" height="36" alt="Tailwind CSS" />
+  &nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/docker" width="36" height="36" alt="Docker" />
+</p>
+
+# Atlas
+
+### Catalogue d'outillage technique
+
+</div>
 
 Application interne permettant de recenser les outils logiciels utilisés par
 les différents services d'une organisation (Dev Back, Dev Front, QA, Ops,
@@ -9,13 +29,18 @@ attention particulière portée à la qualité du C# côté back-end. Toutes les
 données (départements, outils, éditeurs) sont fictives ou réutilisées à des
 fins d'illustration.
 
-![Page de connexion](docs/screenshots/login.png)
-![Tableau de bord](docs/screenshots/dashboard.png)
-![Liste des outils](docs/screenshots/tools-list.png)
-![Matrice de couverture](docs/screenshots/matrix.png)
+<div align="center">
+
+![Démo Atlas](docs/screenshots/demo.gif)
+
+*Connexion → tableau de bord → recherche/tri/pagination des outils → détail
+d'un outil → départements → matrice de couverture.*
+
+</div>
 
 ## Sommaire
 
+- [Fonctionnalités](#fonctionnalités)
 - [Stack technique](#stack-technique)
 - [Prérequis](#prérequis)
 - [Lancement en local](#lancement-en-local)
@@ -23,14 +48,33 @@ fins d'illustration.
 - [Authentification](#authentification)
 - [Architecture](#architecture)
 - [Choix techniques](#choix-techniques)
-- [Tests](#tests)
 - [Vers la production](#vers-la-production)
+
+## Fonctionnalités
+
+- **Catalogue d'outils** : liste paginée, recherche, filtres (catégorie, type
+  de licence), tri par colonne ; fiche détaillée par outil (description,
+  année de création, logo, versions disponibles, licence, documentation
+  officielle, vidéo de présentation YouTube, départements utilisateurs).
+- **Départements** : fiche par département avec la liste des outils liés
+  (niveau d'usage, référent, date d'adoption), liaison/déliaison d'un outil
+  depuis l'interface (mutations optimistes avec rollback en cas d'erreur).
+- **Matrice de couverture** : grille départements × outils avec cellules
+  colorées par niveau d'usage.
+- **Tableau de bord** : indicateurs clés (nombre d'outils, de départements,
+  de catégories), répartition par type de licence, sert aussi de menu de
+  navigation.
+- **Authentification JWT** : connexion, session persistée, déconnexion
+  automatique sur jeton expiré/invalide.
+- **Notifications** : retour visuel (toasts) sur chaque création, modification,
+  liaison ou suppression.
+- **Page 404** dédiée pour toute route inconnue.
 
 ## Stack technique
 
 **Back-end** : .NET 8, ASP.NET Core Web API, EF Core 8 (SQLite), AutoMapper,
 FluentValidation, JWT Bearer (`Microsoft.AspNetCore.Authentication.JwtBearer`),
-Serilog, Swashbuckle, xUnit / FluentAssertions / Moq.
+Serilog, Swashbuckle.
 
 **Front-end** : Vite, React 18, TypeScript strict, TanStack Query v5, React
 Router v6, Tailwind CSS v4, Axios, React Hook Form + Zod.
@@ -46,7 +90,7 @@ Router v6, Tailwind CSS v4, Axios, React Hook Form + Zod.
 ### Back-end
 
 ```bash
-cd src/Atlas.Api
+cd backend/Atlas.Api
 dotnet run
 ```
 
@@ -108,20 +152,18 @@ conservant la page initialement demandée pour y revenir après connexion).
 
 Après connexion, l'utilisateur arrive sur un **tableau de bord** (`/dashboard`)
 qui sert à la fois de page d'accueil et de menu : indicateurs clés (nombre
-d'outils, de départements, de catégories, taux de couverture de la matrice),
-répartition par type de licence, et cartes de navigation vers les autres
-sections.
+d'outils, de départements, de catégories), répartition par type de licence,
+et cartes de navigation vers les autres sections.
 
 ## Architecture
 
 ### Back-end — Clean Architecture
 
 ```
-src/Atlas.Domain           (aucune dépendance externe)
-src/Atlas.Application      (→ Domain)
-src/Atlas.Infrastructure   (→ Application, Domain)
-src/Atlas.Api              (→ Application, Infrastructure)
-tests/Atlas.Application.Tests
+backend/Atlas.Domain           (aucune dépendance externe)
+backend/Atlas.Application      (→ Domain)
+backend/Atlas.Infrastructure   (→ Application, Domain)
+backend/Atlas.Api              (→ Application, Infrastructure)
 ```
 
 - **Domain** : entités (`Tool`, `Category`, `Department`, `DepartmentTool`)
@@ -162,8 +204,9 @@ hooks TanStack Query ; les appels HTTP vivent exclusivement dans `services/`.
 
 **Pourquoi Clean Architecture ?** Le Domain ne dépend d'aucun package
 externe : les règles métier (liaison département↔outil, invariants sur les
-entités) restent testables sans base de données ni framework web, et
-`Atlas.Application.Tests` le prouve en mockant uniquement des interfaces.
+entités) restent exprimées et vérifiables sans base de données ni framework
+web — la couche Application ne dépend que d'interfaces (`IToolRepository`,
+`IUnitOfWork`...), jamais d'EF Core directement.
 
 **Pourquoi une entité de jointure porteuse de données (`DepartmentTool`) ?**
 La relation département↔outil transporte de l'information propre à la
@@ -183,18 +226,6 @@ matrice), pas de l'état UI partagé entre composants distants. TanStack Query
 gère le cache, l'invalidation ciblée après mutation, les mutations
 optimistes avec rollback et les états de chargement/erreur sans qu'il soit
 nécessaire de dupliquer cet état dans un store type Redux/Zustand.
-
-## Tests
-
-```bash
-dotnet test
-```
-
-Couvre la couche Application (repositories mockés via Moq) : récupération
-paginée avec filtres, `NotFoundException` sur id inexistant, création avec
-validation, liaison/déliaison département↔outil (y compris le conflit sur
-liaison déjà existante), calcul de la matrice de couverture, connexion
-(identifiants valides/invalides) via `AuthServiceTests`.
 
 ## Vers la production
 
@@ -220,9 +251,8 @@ Ce qu'un déploiement réel nécessiterait en plus :
   plateforme) — la valeur commitée n'est qu'une démo.
 - **HTTPS** : terminer TLS en amont (reverse proxy / ingress) plutôt que
   dans les conteneurs applicatifs.
-- **CI/CD** : pipeline exécutant `dotnet test`, `dotnet build
-  -warnaserror`, `npm run build`, build et push des images Docker, puis
-  déploiement.
+- **CI/CD** : pipeline exécutant `dotnet build -warnaserror`, `npm run
+  build`, build et push des images Docker, puis déploiement.
 - **Données de référence** : seul le compte `admin` de démonstration est créé
   en production (`SeedAdminUserAsync`, idempotent) ; le catalogue d'exemple
   (`SeedCatalogAsync`) reste réservé au développement. Un environnement de
