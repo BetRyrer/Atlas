@@ -68,6 +68,9 @@ d'un outil → départements → matrice de couverture.*
   automatique sur jeton expiré/invalide.
 - **Notifications** : retour visuel (toasts) sur chaque création, modification,
   liaison ou suppression.
+- **Mode sombre** : bascule manuelle (icône soleil/lune, disponible sur la
+  connexion et dans la barre latérale), préférence persistée en
+  `localStorage` et appliquée avant le premier rendu pour éviter tout flash.
 - **Page 404** dédiée pour toute route inconnue.
 
 ## Stack technique
