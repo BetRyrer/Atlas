@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Atlas — Catalogue d'outillage technique</title>
     <script>
+      // Mirrors the storage key and stored-or-system logic in
+      // src/shared/theme/themeStorage.ts — keep both in sync (this runs
+      // before the bundle loads, so it can't import that module directly).
       (function () {
         var stored = localStorage.getItem('atlas.theme');
         var isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;

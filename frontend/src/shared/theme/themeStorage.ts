@@ -1,5 +1,9 @@
 export type Theme = 'light' | 'dark';
 
+// Kept in sync manually with the inline bootstrap script in index.html: that
+// script runs before the bundle loads (to avoid a flash of the wrong theme),
+// so it can't import this module and re-implements the same key/logic.
+// Renaming STORAGE_KEY requires updating index.html's script too.
 const STORAGE_KEY = 'atlas.theme';
 
 export function readStoredTheme(): Theme | null {

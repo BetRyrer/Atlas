@@ -48,6 +48,7 @@ d'un outil → départements → matrice de couverture.*
 - [Authentification](#authentification)
 - [Architecture](#architecture)
 - [Choix techniques](#choix-techniques)
+- [Déploiement](#déploiement)
 - [Vers la production](#vers-la-production)
 
 ## Fonctionnalités
@@ -230,6 +231,45 @@ gère le cache, l'invalidation ciblée après mutation, les mutations
 optimistes avec rollback et les états de chargement/erreur sans qu'il soit
 nécessaire de dupliquer cet état dans un store type Redux/Zustand.
 
+## Déploiement
+
+Déploiement gratuit et disponible 24/24 (pas de mise en veille) sur une VM
+`e2-micro` du tier **Always Free** de Google Cloud, avec un sous-domaine
+[DuckDNS](https://www.duckdns.org) et HTTPS automatique via
+[Caddy](https://caddyserver.com) (certificat Let's Encrypt géré tout seul).
+
+1. **VM** : créer une instance `e2-micro` (région éligible Always Free —
+   `us-west1`, `us-central1` ou `us-east1`), réserver son IP externe en
+   statique (gratuite tant qu'elle reste attachée à une VM qui tourne).
+   Ouvrir les ports `22`, `80` et `443` dans le pare-feu du VPC.
+2. **DNS** : créer un compte DuckDNS, choisir un sous-domaine
+   (`atlas-xxx.duckdns.org`) et le faire pointer vers l'IP statique de la VM.
+3. **Sur la VM** (SSH) : installer Docker et le plugin Compose, cloner le
+   dépôt.
+4. **Configuration** : `cp .env.example .env`, puis renseigner :
+   ```
+   DOMAIN=atlas-xxx.duckdns.org
+   FRONTEND_ORIGIN=https://atlas-xxx.duckdns.org
+   VITE_API_BASE_URL=/api
+   ASPNETCORE_ENVIRONMENT=Development
+   JWT_SECRET=<openssl rand -base64 48>
+   ```
+   `VITE_API_BASE_URL=/api` (chemin relatif) fonctionne parce que Caddy sert
+   le front et proxie `/api/*` vers l'API sous le **même** domaine — pas de
+   CORS cross-origin à gérer en production. `ASPNETCORE_ENVIRONMENT=Development`
+   est un choix assumé : c'est ce qui déclenche `SeedCatalogAsync` (voir
+   [Lancement via Docker](#lancement-via-docker)) pour que la démo ait des
+   données à montrer ; contrairement à un déploiement PaaS à disque éphémère,
+   ici le volume `atlas-data` vit sur le disque persistant de la VM, donc le
+   catalogue n'est semé qu'une fois et les données survivent aux redémarrages.
+5. **Lancer** : `docker compose --profile production up -d --build`. Le
+   service `caddy` (défini dans [`docker-compose.yml`](docker-compose.yml),
+   [`Caddyfile`](Caddyfile)) n'existe que derrière ce profil — la commande
+   `docker compose up` sans `--profile production` reste inchangée pour un
+   usage local.
+6. **Redéploiement** : `git pull && docker compose --profile production up
+   -d --build`.
+
 ## Vers la production
 
 Ce dépôt prépare une mise en production sans la réaliser entièrement. Ce qui
@@ -241,8 +281,11 @@ est déjà en place :
   `healthcheck` Docker Compose.
 - Dockerfiles multi-stage non-root (API) et build Vite → nginx (front),
   volume nommé pour la persistance SQLite.
+- HTTPS via Caddy + Let's Encrypt (voir [Déploiement](#déploiement)) — géré
+  en amont des conteneurs applicatifs, comme recommandé.
 
-Ce qu'un déploiement réel nécessiterait en plus :
+Ce qu'un déploiement réel (à plus grande échelle qu'une démo de portfolio)
+nécessiterait en plus :
 
 - **Base de données** : migrer de SQLite vers PostgreSQL ou SQL Server pour
   la concurrence en écriture et la réplication — l'abstraction
@@ -252,8 +295,6 @@ Ce qu'un déploiement réel nécessiterait en plus :
   `Jwt:Secret` des fichiers `appsettings*.json` vers un gestionnaire de
   secrets (Azure Key Vault, variables d'environnement injectées par la
   plateforme) — la valeur commitée n'est qu'une démo.
-- **HTTPS** : terminer TLS en amont (reverse proxy / ingress) plutôt que
-  dans les conteneurs applicatifs.
 - **CI/CD** : pipeline exécutant `dotnet build -warnaserror`, `npm run
   build`, build et push des images Docker, puis déploiement.
 - **Données de référence** : seul le compte `admin` de démonstration est créé

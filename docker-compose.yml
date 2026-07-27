@@ -31,5 +31,31 @@ services:
       api:
         condition: service_healthy
 
+  # Opt-in reverse proxy for a real deployment (`docker compose --profile production up -d --build`).
+  # Not used by local `docker compose up` — see README "Déploiement" for the full runbook.
+  caddy:
+    image: caddy:2
+    profiles: ["production"]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      # Not `:?` (required) on purpose: that syntax is validated for every
+      # service at parse time, even ones gated by an inactive profile, and
+      # would break plain local `docker compose up`. Set a real value in
+      # .env before running with --profile production.
+      DOMAIN: ${DOMAIN:-CHANGE_ME.duckdns.org}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      api:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+
 volumes:
   atlas-data:
+  caddy-data:
+  caddy-config:
